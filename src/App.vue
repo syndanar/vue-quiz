@@ -47,12 +47,12 @@ export default {
     },
     fillRoutes(path, options) {
       options.forEach(opt => {
-        if(Object.prototype.hasOwnProperty.call(opt, 'nav')) {
+        if(Object.prototype.hasOwnProperty.call(opt, 'meta') && Object.prototype.hasOwnProperty.call(opt.meta, 'nav')) {
           this.routes.push({
             name: opt.name,
             path: this.makePath(path, opt.path),
-            title: opt.nav.title,
-            icon: opt.nav.icon
+            title: opt.meta.nav.title,
+            icon: opt.meta.nav.icon
           });
         }
         if(Object.prototype.hasOwnProperty.call(opt, 'children')) {

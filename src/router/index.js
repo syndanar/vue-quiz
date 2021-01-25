@@ -1,49 +1,42 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue"
+import VueRouter from "vue-router"
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    redirect: { name: 'quiz' },
+    path: "",
+    name: "home",
+    redirect: {name: "quiz-list"}
   },
   {
-    path: '/quiz',
-    name: 'quiz',
+    path: "/quiz",
+    component: () => import(/* webpackChunkName: "quiz-list" */ "../views/quiz/Index.vue"),
     children: [
       {
-        path: '',
-        name: 'quiz',
-        nav: {
-          title: 'Quiz list',
-          icon: 'mdi-format-list-bulleted'
+        path: "",
+        name: "quiz-list",
+        meta: {
+          nav: {
+            title: "Quiz list",
+            icon: "mdi-format-list-bulleted"
+          },
         },
-        component: () => import(/* webpackChunkName: "quiz" */ '../views/quiz/index.vue'),
+        component: () => import(/* webpackChunkName: "quiz-list" */ "../views/quiz/List.vue"),
       },
       {
-        path: 'create',
-        name: 'quiz-create',
-        nav: {
-          title: 'Quiz create',
-          icon: 'mdi-playlist-plus'
+        path: "add",
+        name: "quiz-add",
+        meta: {
+          nav: {
+            title: "Quiz add",
+            icon: "mdi-playlist-plus"
+          },
         },
-        component: () => import(/* webpackChunkName: "quiz-create" */ '../views/quiz/create.vue')
-      },
-      {
-        path: 'update',
-        name: 'quiz-update',
-        component: () => import(/* webpackChunkName: "quiz-update" */ '../views/quiz/update.vue')
-      },
-      {
-        path: 'delete',
-        name: 'quiz-delete',
-        component: () => import(/* webpackChunkName: "quiz-delete" */ '../views/quiz/delete.vue')
+        component: () => import(/* webpackChunkName: "quiz-add" */ "../views/quiz/Add.vue"),
       }
     ]
-  },
-
+  }
 ]
 
 const router = new VueRouter({
