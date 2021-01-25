@@ -2,6 +2,23 @@
   <div>
     <v-container>
       <quiz-form v-model="quiz"></quiz-form>
+      <v-btn
+          rounded
+          color="primary"
+          dark
+          @click="save"
+      >
+        Сохранить
+      </v-btn>
+
+      <v-btn
+          rounded
+          color="secondary"
+          dark
+          @click="reset"
+      >
+        Очистить
+      </v-btn>
     </v-container>
   </div>
 </template>
@@ -16,13 +33,27 @@ export default {
     return {
       quiz: {
         likeCats: true,
-        firstName: "Max",
+        firstName: "",
         lastName: "",
         birthday: "",
-        email: "mm@mail.ru",
-        password: "1111",
+        email: "",
+        password: "",
       }
     }
   },
+  mounted() {
+    this.$eventsHub.on('quiz-form-saved', () => {
+      console.log('bus on');
+      this.$router.push({name: 'quiz-list' });
+    })
+  },
+  methods: {
+    save() {
+      this.$eventsHub.emit('quiz-form-save');
+    },
+    reset() {
+      this.$eventsHub.emit('quiz-form-reset');
+    }
+  }
 }
 </script>

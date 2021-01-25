@@ -4,9 +4,10 @@ import vuetify from './plugins/vuetify';
 import './plugins/vuelidate.js';
 import router from './router'
 import store from './store'
+import hub from './hub.js';
 
-Vue.config.productionTip = false
-
+Vue.prototype.$eventsHub = hub;
+Vue.config.productionTip = false;
 
 new Vue({
   vuetify,

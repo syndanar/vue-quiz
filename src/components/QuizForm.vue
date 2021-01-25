@@ -92,24 +92,6 @@
         label="Upload a cat photo"
         :error-messages="uploadPhotoErrors"
     ></v-file-input>
-    <v-btn
-        rounded
-        color="primary"
-        dark
-        @click="save"
-    >
-      Сохранить
-    </v-btn>
-
-    <v-btn
-        rounded
-        color="secondary"
-        dark
-        @click="reset"
-    >
-      Очистить
-    </v-btn>
-
   </v-form>
 </template>
 
@@ -128,24 +110,32 @@ export default {
     password: { required },
   },
   name: "QuizForm",
-  props: ['value'],
+  props: ['value','buttons'],
   data() {
     return {
       quiz: {...this.value},
       birthdayMenu: false,
     }
   },
-  methods: {
-    save() {
+  mounted() {
+    this.$eventsHub.on('quiz-form-save', () => {
       this.$v.$touch();
-      this.$v.$anyError && this.$store.dispatch('quiz/save', this.quiz);
-      this.$router.push({name: 'quiz-list'});
-    },
-    reset() {
+      console.log(this.$v);
+      if(!this.$v.$anyError) {
+        this.$store.dispatch('quiz/save', this.quiz);
+        console.log('no errors');
+        this.$eventsHub.emit('quiz-form-saved');
+      } else {
+        console.log('errors');
+        this.$eventsHub.emit('quiz-form-not-saved');
+      }
+    });
+
+    this.$eventsHub.on('quiz-form-reset', () => {
       this.$v.$reset()
       this.quiz = {...this.value};
       this.birthdayMenu = false;
-    },
+    });
   },
   computed: {
     likeCatsErrors () {
